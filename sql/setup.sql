@@ -63,7 +63,7 @@ INSERT INTO products (name, description, price, stock_quantity, category) VALUES
 ('Monitor', '24-inch LED monitor', 199.99, 30, 'Electronics');
 
 INSERT INTO orders (user_id, order_number, total_amount, order_status) VALUES
-(1, 'ORD-001', 1089.98, 'DELIVERED'),
+(2, 'ORD-001', 1089.98, 'DELIVERED'),
 (2, 'ORD-002', 289.98, 'SHIPPED'),
 (3, 'ORD-003', 999.99, 'PENDING');
 
