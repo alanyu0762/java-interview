@@ -89,6 +89,13 @@ public class DatabaseConfig {
         // Missing: cachePrepStmts, prepStmtCacheSize, prepStmtCacheSqlLimit
         // Missing: useServerPrepStmts, useLocalSessionState, rewriteBatchedStatements
         
+        // SSL Configuration for MySQL certificate trust
+        config.addDataSourceProperty("useSSL", "true");
+        config.addDataSourceProperty("verifyServerCertificate", "false");
+        config.addDataSourceProperty("allowPublicKeyRetrieval", "true");
+        config.addDataSourceProperty("useUnicode", "true");
+        config.addDataSourceProperty("characterEncoding", "UTF-8");
+        
         // Basic pool name for monitoring
         config.setPoolName("InterviewDB-Pool");
         
