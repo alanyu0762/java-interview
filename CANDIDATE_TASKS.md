@@ -55,28 +55,6 @@ This Spring Boot project has been created for candidate interviews. It contains 
 - Add monitoring capabilities
 - Review and justify pool size settings
 
-## Evaluation Criteria
-
-### Code Quality (25%)
-- Clean, readable code with proper naming
-- Appropriate error handling
-- Following Spring Boot conventions
-
-### Functionality (25%)
-- Correct implementation of business logic
-- Proper use of existing repository methods
-- Handling edge cases
-
-### Database Knowledge (25%)
-- Understanding of connection pooling concepts
-- Knowledge of MySQL-specific optimizations
-- Awareness of production concerns
-
-### Problem-Solving (25%)
-- Ability to identify issues in existing code
-- Justification of configuration choices
-- Understanding of performance implications
-
 ## Project Structure
 ```
 src/main/java/com/interview/candidateproject/
