@@ -90,7 +90,7 @@ public class DatabaseConfig {
         // Missing: useServerPrepStmts, useLocalSessionState, rewriteBatchedStatements
         
         // SSL Configuration for MySQL certificate trust
-        config.addDataSourceProperty("useSSL", "true");
+        config.addDataSourceProperty("useSSL", "false");
         config.addDataSourceProperty("verifyServerCertificate", "false");
         config.addDataSourceProperty("allowPublicKeyRetrieval", "true");
         config.addDataSourceProperty("useUnicode", "true");
