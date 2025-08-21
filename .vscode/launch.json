@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-CandidateProjectApplication<candidate-project>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.interview.candidateproject.CandidateProjectApplication",
+            "projectName": "candidate-project",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

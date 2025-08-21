@@ -1,0 +1,14 @@
+com\interview\candidateproject\entity\Product.class
+com\interview\candidateproject\controller\OrderController.class
+com\interview\candidateproject\controller\UserController.class
+com\interview\candidateproject\repository\OrderRepository.class
+com\interview\candidateproject\entity\User.class
+com\interview\candidateproject\config\DatabaseConfig.class
+com\interview\candidateproject\repository\ProductRepository.class
+com\interview\candidateproject\repository\UserRepository.class
+com\interview\candidateproject\entity\Order.class
+com\interview\candidateproject\entity\OrderItem.class
+com\interview\candidateproject\CandidateProjectApplication.class
+com\interview\candidateproject\service\OrderService.class
+com\interview\candidateproject\service\UserService.class
+com\interview\candidateproject\entity\Order$OrderStatus.class
