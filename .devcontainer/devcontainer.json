@@ -1,0 +1,32 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/anaconda
+{
+	"name": "demo",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "app",
+	"workspaceFolder": "/workspace",
+	"shutdownAction": "stopCompose",
+	"customizations": {
+		"vscode": {
+			"settings": {},
+			"extensions": [
+				"GitHub.copilot",
+				"GitHub.copilot-chat",
+				"vscjava.vscode-maven",
+				"vscjava.vscode-java-test",
+				"vscjava.vscode-java-pack",
+				"vscjava.vscode-java-dependency",
+				"vscjava.vscode-java-debug",
+				"vscjava.vscode-gradle",
+				"vscjava.vscode-spring-initializr",
+				"vscjava.vscode-spring-boot-dashboard",
+				"redhat.java",
+				"streetsidesoftware.code-spell-checker",
+				"eamodio.gitlens",
+				"donjayamanne.githistory",
+				"ms-mssql.mssql@1.23.0",
+				"redhat.vscode-xml",
+			]
+		}
+	}
+}

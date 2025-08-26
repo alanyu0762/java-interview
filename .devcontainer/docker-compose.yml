@@ -1,0 +1,16 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ../:/workspace
+      - ./m2:/home/vscode/.m2
+    environment:
+      - LOG_DIR=/workspace/logs
+    env_file: 
+      - path: .env
+        required: false
+    tty: true
+
+      
