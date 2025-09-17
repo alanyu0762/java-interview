@@ -63,7 +63,7 @@ public class UserService {
      * This method should search for users by name (first name or last name).
      * It should be case-insensitive and support partial matches.
      * 
-     * Hint: Use the existing repository method findByNameContaining
+     * Hint: Reuse all the exiting functions 
      * 
      * @param name The name to search for
      * @return List of users matching the search criteria
