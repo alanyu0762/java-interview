@@ -24,8 +24,7 @@
 				"streetsidesoftware.code-spell-checker",
 				"eamodio.gitlens",
 				"donjayamanne.githistory",
-				"ms-mssql.mssql@1.23.0",
-				"redhat.vscode-xml",
+				"redhat.vscode-xml"
 			]
 		}
 	}

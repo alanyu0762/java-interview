@@ -1,14 +1,17 @@
 {
+    "version": "0.2.0",
     "configurations": [
         {
             "type": "java",
-            "name": "Spring Boot-CandidateProjectApplication<candidate-project>",
+            "name": "API",
             "request": "launch",
-            "cwd": "${workspaceFolder}",
             "mainClass": "com.interview.candidateproject.CandidateProjectApplication",
             "projectName": "candidate-project",
+            "cwd": "${workspaceFolder}",
+            "env": {},
+            "vmArgs": "-Xmx2g",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "stopOnEntry": false,
         }
     ]
 }
