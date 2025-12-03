@@ -115,12 +115,12 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
                     .header("X-Error-Message", "Stock update functionality not yet implemented")
                     .build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest()
                     .header("X-Error-Message", e.getMessage())
                     .build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
         }
     }
 
