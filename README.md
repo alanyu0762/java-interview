@@ -13,37 +13,25 @@ The project simulates an e-commerce system with the following entities:
 ## Database Setup
 
 ### Prerequisites
-- MySQL 8.0 or higher
 - Java 17 or higher
 - Maven 3.6 or higher
 
-### Database Installation and Setup
-
-1. **Install MySQL** (if not already installed):
-   - Download from [MySQL Official Website](https://dev.mysql.com/downloads/)
-   - Install with default settings
-
-2. **Create Database and User**:
-   ```sql
-   -- Connect to MySQL as root
-   mysql -u root -p
-   
-   -- Run the setup script
-   source sql/setup.sql
-   ```
-
-3. **Alternative: Run the SQL script directly**:
-   ```bash
-   mysql -u root -p < sql/setup.sql
-   ```
-
 ### Database Configuration
 
-Update `src/main/resources/application.properties` with your MySQL credentials:
+This project uses **SQLite** as the database, which requires no installation or setup. The database file `interview_db.db` is automatically created when the application starts.
+
+The SQLite database is pre-configured in `src/main/resources/application.properties`:
 ```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/interview_db
-spring.datasource.username=your_username
-spring.datasource.password=your_password
+spring.datasource.url=jdbc:sqlite:interview_db.db
+spring.datasource.driver-class-name=org.sqlite.JDBC
+spring.jpa.database-platform=org.hibernate.community.dialect.SQLiteDialect
+```
+
+### Initialize Sample Data (Optional)
+
+To populate the database with sample data for testing:
+```bash
+sqlite3 interview_db.db < sql/setup_sqlite.sql
 ```
 
 ## Running the Application
@@ -64,21 +52,25 @@ mvn spring-boot:run
 1. Import the project as a Maven project
 2. Run `CandidateProjectApplication.java` as a Java application
 
-The application will start on `http://localhost:8080`
+The application will start on `http://localhost:8180`
 
 ## Interview Tasks
 
-### Task 1: Implement User Search Functionality
+This project contains **11 candidate tasks** across different services. See `CANDIDATE_TASKS.md` for detailed requirements and test cases.
+
+### User Management Tasks
+
+#### Task 1: Implement User Search Functionality
 **Location**: `UserService.searchUsersByName()` method
 
 **Requirements**:
 - Implement case-insensitive user search by first name or last name
 - Support partial matches
-- Use the existing repository method `findByNameContaining`
+- Use the existing repository method
 
 **Test Endpoint**: `GET /api/users/search?name={searchTerm}`
 
-### Task 2: Implement User Validation
+#### Task 2: Implement User Validation
 **Location**: `UserService.validateUser()` method
 
 **Requirements**:
@@ -90,7 +82,87 @@ The application will start on `http://localhost:8080`
 
 **Test Endpoint**: `POST /api/users/validate`
 
-### Task 3: Review and Improve Connection Pool Configuration
+#### Task 10: Implement User Deactivation
+**Location**: `UserService.deactivateUser()` method
+
+**Requirements**:
+- Find user by ID (throw `RuntimeException` if not found)
+- Check if user is already inactive (throw `IllegalStateException`)
+- Set active status to false and save
+
+**Test Endpoint**: `POST /api/users/{id}/deactivate`
+
+#### Task 11: Implement Email Update
+**Location**: `UserService.updateUserEmail()` method
+
+**Requirements**:
+- Validate email format using regex
+- Check email uniqueness
+- Update and return the user
+
+**Test Endpoint**: `PATCH /api/users/{id}/email?email={newEmail}`
+
+### Product Management Tasks
+
+#### Task 4: Implement Product Search
+**Location**: `ProductService.searchProductsByName()` method
+
+**Requirements**:
+- Case-insensitive search for products by name
+- Support partial matches
+
+**Test Endpoint**: `GET /api/products/search?name={searchTerm}`
+
+#### Task 5: Implement Price Range Filter
+**Location**: `ProductService.getProductsByPriceRange()` method
+
+**Requirements**:
+- Validate price range (non-negative, min <= max)
+- Return products within the price range
+
+**Test Endpoint**: `GET /api/products/price-range?minPrice={min}&maxPrice={max}`
+
+#### Task 6: Implement Stock Update
+**Location**: `ProductService.updateStockQuantity()` method
+
+**Requirements**:
+- Validate quantity is non-negative
+- Update and return the product
+
+**Test Endpoint**: `PATCH /api/products/{id}/stock?quantity={newQuantity}`
+
+### Order Management Tasks
+
+#### Task 7: Implement Cancel Order
+**Location**: `OrderService.cancelOrder()` method
+
+**Requirements**:
+- Only PENDING or CONFIRMED orders can be cancelled
+- Throw appropriate exceptions for invalid states
+
+**Test Endpoint**: `POST /api/orders/{id}/cancel`
+
+#### Task 8: Implement Revenue Calculation
+**Location**: `OrderService.calculateRevenueInDateRange()` method
+
+**Requirements**:
+- Validate date range
+- Sum totalAmount of DELIVERED orders only
+
+**Test Endpoint**: `GET /api/orders/revenue?startDate={start}&endDate={end}`
+
+#### Task 9: Implement Recent Orders
+**Location**: `OrderService.getRecentOrdersByUser()` method
+
+**Requirements**:
+- Sort orders by date descending
+- Limit results to specified count
+
+**Test Endpoint**: `GET /api/orders/user/{userId}/recent?limit={limit}`
+
+### Configuration Task
+
+#### Task 3: Review and Improve Connection Pool Configuration
 **Location**: `DatabaseConfig.java`
 
 **Issues to identify and fix**:
@@ -98,14 +170,12 @@ The application will start on `http://localhost:8080`
 2. Timeout configuration optimization
 3. Missing connection validation settings
 4. Lack of monitoring and health checks
-5. Missing MySQL-specific optimizations
-6. No connection leak prevention measures
+5. No connection leak prevention measures
 
 **Areas to improve**:
 - Add connection test queries
 - Configure statement caching
 - Add metrics and monitoring
-- Optimize for MySQL specifically
 - Add connection validation
 - Configure appropriate timeouts for production
 
@@ -121,6 +191,22 @@ The application will start on `http://localhost:8080`
 - `PUT /api/users/{id}` - Update user
 - `DELETE /api/users/{id}` - Delete user
 - `POST /api/users/validate` - Validate user data (Task 2)
+- `POST /api/users/{id}/deactivate` - Deactivate user (Task 10)
+- `PATCH /api/users/{id}/email?email={email}` - Update user email (Task 11)
+
+### Product Management
+- `GET /api/products` - Get all products
+- `GET /api/products/{id}` - Get product by ID
+- `GET /api/products/category/{category}` - Get products by category
+- `GET /api/products/available` - Get available products
+- `GET /api/products/low-stock?threshold={n}` - Get low stock products
+- `GET /api/products/categories` - Get all categories
+- `GET /api/products/search?name={name}` - Search products by name (Task 4)
+- `GET /api/products/price-range?minPrice={min}&maxPrice={max}` - Filter by price (Task 5)
+- `POST /api/products` - Create new product
+- `PUT /api/products/{id}` - Update product
+- `DELETE /api/products/{id}` - Delete product
+- `PATCH /api/products/{id}/stock?quantity={qty}` - Update stock (Task 6)
 
 ### Order Management
 - `GET /api/orders` - Get all orders
@@ -130,12 +216,15 @@ The application will start on `http://localhost:8080`
 - `GET /api/orders/status/{status}` - Get orders by status
 - `POST /api/orders` - Create new order
 - `PUT /api/orders/{id}/status?status={status}` - Update order status
+- `POST /api/orders/{id}/cancel` - Cancel order (Task 7)
+- `GET /api/orders/revenue?startDate={start}&endDate={end}` - Calculate revenue (Task 8)
+- `GET /api/orders/user/{userId}/recent?limit={n}` - Get recent orders (Task 9)
 
 ## Sample API Calls
 
 ### Create a User
 ```bash
-curl -X POST http://localhost:8080/api/users \
+curl -X POST http://localhost:8180/api/users \
 -H "Content-Type: application/json" \
 -d '{
   "username": "testuser",
@@ -147,12 +236,12 @@ curl -X POST http://localhost:8080/api/users \
 
 ### Search Users (Task 1)
 ```bash
-curl "http://localhost:8080/api/users/search?name=john"
+curl "http://localhost:8180/api/users/search?name=john"
 ```
 
 ### Validate User (Task 2)
 ```bash
-curl -X POST http://localhost:8080/api/users/validate \
+curl -X POST http://localhost:8180/api/users/validate \
 -H "Content-Type: application/json" \
 -d '{
   "username": "tu",
@@ -162,9 +251,39 @@ curl -X POST http://localhost:8080/api/users/validate \
 }'
 ```
 
+### Search Products (Task 4)
+```bash
+curl "http://localhost:8180/api/products/search?name=laptop"
+```
+
+### Filter Products by Price Range (Task 5)
+```bash
+curl "http://localhost:8180/api/products/price-range?minPrice=10&maxPrice=100"
+```
+
+### Update Stock Quantity (Task 6)
+```bash
+curl -X PATCH "http://localhost:8180/api/products/1/stock?quantity=50"
+```
+
+### Cancel Order (Task 7)
+```bash
+curl -X POST "http://localhost:8180/api/orders/1/cancel"
+```
+
+### Calculate Revenue (Task 8)
+```bash
+curl "http://localhost:8180/api/orders/revenue?startDate=2024-01-01T00:00:00&endDate=2024-12-31T23:59:59"
+```
+
+### Get Recent Orders (Task 9)
+```bash
+curl "http://localhost:8180/api/orders/user/1/recent?limit=5"
+```
+
 ## Testing
 
-The project includes basic tests that verify the application context loads correctly even with incomplete methods.
+The project includes basic tests that verify the application context loads correctly even with incomplete methods. Tests use H2 in-memory database.
 
 Run tests:
 ```bash
@@ -181,13 +300,14 @@ src/
 │   │   ├── controller/      # REST controllers
 │   │   ├── entity/          # JPA entities
 │   │   ├── repository/      # Data repositories
-│   │   ├── service/         # Business logic (Tasks 1 & 2)
+│   │   ├── service/         # Business logic (Tasks 1, 2, 4-11)
 │   │   └── CandidateProjectApplication.java
 │   └── resources/
 │       └── application.properties
 ├── test/
 └── sql/
-    └── setup.sql           # Database setup script
+    ├── setup.sql            # MySQL database setup script
+    └── setup_sqlite.sql     # SQLite database setup script
 ```
 
 ## Evaluation Criteria
@@ -207,19 +327,20 @@ Candidates will be evaluated on:
 - API endpoints return appropriate HTTP status codes for unimplemented features
 - The connection pool configuration has intentional issues for discussion
 - All database operations work correctly except for the candidate tasks
+- The project uses SQLite by default (no external database required)
 
 ## Common Issues and Solutions
 
-### MySQL Connection Issues
-- Ensure MySQL is running on port 3306
-- Verify username/password in application.properties
-- Check if the database `interview_db` exists
-
 ### Port Already in Use
-- Change `server.port` in application.properties
-- Or stop other applications using port 8080
+- Change `server.port` in application.properties (default: 8180)
+- Or stop other applications using port 8180
 
 ### Maven Build Issues
 - Ensure Java 17 is installed and configured
 - Check internet connection for dependency downloads
 - Try `mvn clean install -U` to force update dependencies
+
+### Database Issues
+- SQLite database file `interview_db.db` is created automatically
+- To reset data, delete the file and restart the application
+- Run `sql/setup_sqlite.sql` to populate with sample data
